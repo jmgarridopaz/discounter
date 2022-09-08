@@ -1,34 +1,33 @@
 package io.github.jmgarridopaz.discounter.outside.startup;
 
+import io.github.jmgarridopaz.discounter.outside.actor.forcalculatingdiscount.test.Driver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import io.github.jmgarridopaz.discounter.application.ForObtainingRates;
 
-public class DiscounterEntryPoint {
+@SpringBootApplication
+@ComponentScan("io.github.jmgarridopaz.discounter")
+public class DiscounterEntryPoint implements CommandLineRunner {
+
+	private final Driver driver;
 
 	public static void main ( String[] args ) {
-
-		// Select adapters for every driven actor
-		String rateProviderName = "STUB";
-		if ( args!=null && args.length>0 && args[0]!=null ) {
-			if ( !args[0].equals("STUB") && !args[0].equals("FILE") ) {
-				throw new IllegalArgumentException(args[0]);
-			}
-			rateProviderName = args[0];
-		}
-		ForObtainingRates rateProvider = RateProviderSelector.selectAdapter ( RateProvider.valueOf(rateProviderName) );
-
+		SpringApplication.run(DiscounterEntryPoint.class,args);
 	}
 
-
-	private final DiscounterApi discounterApplication;
-
-	public DiscounterEntryPoint(DiscounterApi discounterApplication ) {
-		this.discounterApplication = discounterApplication;
+	@Autowired
+	public DiscounterEntryPoint ( Driver driver ) {
+		System.out.println("DiscounterEntryPoint created...");
+		this.driver = driver;
 	}
 
-	public void run() {
-
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("Running DiscounterEntryPoint...");
+		this.driver.run();
 	}
 
 }

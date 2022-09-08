@@ -1,4 +1,7 @@
-package io.github.jmgarridopaz.discounter.application;
-
-public interface ForObtainingRates {
-}
+//package io.github.jmgarridopaz.discounter.application;
+//
+///**
+// * Driven Port
+// */
+//public interface ForObtainingRates {
+//}
