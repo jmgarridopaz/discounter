@@ -1,6 +1,6 @@
 package io.github.jmgarridopaz.discounter.outside.startup;
 
-import io.github.jmgarridopaz.discounter.outside.actor.forcalculatingdiscount.test.Driver;
+import io.github.jmgarridopaz.discounter.outside.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,23 +10,23 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("io.github.jmgarridopaz.discounter")
-public class DiscounterEntryPoint implements CommandLineRunner {
+public class DiscounterAppEntryPoint implements CommandLineRunner {
 
 	private final Driver driver;
 
 	public static void main ( String[] args ) {
-		SpringApplication.run(DiscounterEntryPoint.class,args);
+		SpringApplication.run(DiscounterAppEntryPoint.class,args);
 	}
 
 	@Autowired
-	public DiscounterEntryPoint ( Driver driver ) {
-		System.out.println("DiscounterEntryPoint created...");
+	public DiscounterAppEntryPoint(Driver driver ) {
+		System.out.println("DiscounterAppEntryPoint created...");
 		this.driver = driver;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Running DiscounterEntryPoint...");
+		System.out.println("Running DiscounterAppEntryPoint...");
 		this.driver.run();
 	}
 

@@ -1,4 +1,4 @@
-# Discounter
+ddw# Discounter
 
 ## An implementation of the application included in the "Sample Code" section of "Hexagonal Architecture" pattern.
 
@@ -18,12 +18,11 @@ discount(amount) = amount * rate(amount)
 
 The rate to apply is read from a file, and it might vary depending on the amount (a different rate value for each amount range). For example:
 
-| Amount from (exclusive) | Amount until (inclusive) | Rate |
-|------------------------:|-------------------------:|-----:|
-|                       0 |                       20 |    0 |
-|                      20 |                       50 | 0.15 |
-|                      50 |                      100 | 0.33 |
-|                     100 |                          | 0.50 |
+| Min Amount | Max Amount | Rate |
+|-----------:|-----------:|-----:|
+|       0.01 |      20.00 | 0.00 |
+|      20.01 |     100.00 | 0.15 |
+|     100.01 |          - | 0.35 |
 
 ### Development sequence:
 

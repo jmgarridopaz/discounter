@@ -1,7 +1,7 @@
-package io.github.jmgarridopaz.discounter.outside.actor.forcalculatingdiscount.test;
+package io.github.jmgarridopaz.discounter.outside.foradiscounting.testcases;
 
-import io.github.jmgarridopaz.discounter.application.ForCalculatingDiscount;
-import org.springframework.stereotype.Component;
+import io.github.jmgarridopaz.discounter.application.ForDiscounting;
+import io.github.jmgarridopaz.discounter.outside.Driver;
 import org.testng.TestNG;
 import java.io.File;
 
@@ -10,15 +10,15 @@ public class TestCases implements Driver {
 
 	private static final String OUTPUT_DIRECTORY = System.getProperty("user.home") + File.separator + ".discounter" + File.separator + "test-output";
 
-	private static ForCalculatingDiscount discountCalculator;
+	private static ForDiscounting discounterApp;
 
-	public TestCases(ForCalculatingDiscount discountCalculator ) {
-		System.out.println("TestCases driver created.");
-		TestCases.discountCalculator = discountCalculator;
+	public TestCases(ForDiscounting discounterApp) {
+		System.out.println("TestCases driver created...");
+		TestCases.discounterApp = discounterApp;
 	}
 
-	public static ForCalculatingDiscount getDiscountCalculator() {
-		return TestCases.discountCalculator;
+	public static ForDiscounting getDiscounterApp() {
+		return TestCases.discounterApp;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class TestCases implements Driver {
 		System.out.println("===============================================");
 		TestNG testNG = new TestNG();
 		testNG.setOutputDirectory(OUTPUT_DIRECTORY);
-		testNG.setTestClasses ( new Class[]{ TestDiscounter.class } );
+		testNG.setTestClasses ( new Class[]{ TestDiscounterApp.class } );
 		testNG.run();
 	}
 
