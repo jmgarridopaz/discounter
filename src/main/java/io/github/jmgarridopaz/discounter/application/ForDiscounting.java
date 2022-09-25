@@ -1,15 +1,12 @@
 package io.github.jmgarridopaz.discounter.application;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 /**
  * Driver Port
  */
 public interface ForDiscounting {
 
-    public BigDecimal calculateDiscount ( BigDecimal amount );
+    public Amount calculateDiscount ( Amount amount );
 
-    public void initializeRates ( String[][] ratesByAmountIntervals );
+    public void initializeRates ( String[][] ratesByAmountInterval );
 
 }

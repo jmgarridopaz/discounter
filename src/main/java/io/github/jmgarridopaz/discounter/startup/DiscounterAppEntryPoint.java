@@ -1,4 +1,4 @@
-package io.github.jmgarridopaz.discounter.outside.startup;
+package io.github.jmgarridopaz.discounter.startup;
 
 import io.github.jmgarridopaz.discounter.outside.Driver;
 import org.springframework.beans.factory.annotation.Autowired;

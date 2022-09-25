@@ -1,15 +1,14 @@
 package io.github.jmgarridopaz.discounter.application;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 /**
  * Driven Port
  */
 public interface ForObtainingRates {
 
-    public BigDecimal getRateOfAmount ( BigDecimal amount );
+    public Rate getRateOfAmount ( Amount amount );
 
-    public void init(String[][] ratesByAmountIntervals);
+    public void initEmpty();
+
+    public void addRateOfAmountInterval ( Amount minAmount, Amount maxAmount, Rate rate );
 
 }

@@ -1,68 +1,48 @@
 package io.github.jmgarridopaz.discounter.outside.forobtainingrates.testdouble;
 
+import io.github.jmgarridopaz.discounter.application.Amount;
 import io.github.jmgarridopaz.discounter.application.ForObtainingRates;
-import java.math.BigDecimal;
+import io.github.jmgarridopaz.discounter.application.Rate;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class StubRateRepository implements ForObtainingRates {
 
-    private List<String[]> ratesByAmountIntervals;
+    private List<RateOfAmountInterval> ratesByAmountIntervals;
 
     public StubRateRepository() {
         System.out.println("StubRateRepository created...");
-        this.ratesByAmountIntervals = new ArrayList<String[]>();
+        initEmpty();
     }
 
     @Override
-    public BigDecimal getRateOfAmount(BigDecimal amount ) {
-        if ( amount==null || amount.compareTo(BigDecimal.ZERO)<=0 ) {
-            throw new IllegalArgumentException("Amount must be greater than zero");
+    public Rate getRateOfAmount(Amount amount) {
+        if ( amount==null ) {
+            throw new NullPointerException("Amount cannot be null");
         }
-        for ( String[] rateByAmountInterval : this.ratesByAmountIntervals ) {
-            String minAmountAsString = rateByAmountInterval[0];
-            String maxAmountAsString = rateByAmountInterval[1];
-            BigDecimal rate = new BigDecimal(rateByAmountInterval[2]);
-            if (amountBelongsToInterval(amount, minAmountAsString, maxAmountAsString)) {
-                return rate;
+        for ( RateOfAmountInterval rateOfAmountInterval : this.ratesByAmountIntervals ) {
+            if ( rateOfAmountInterval.includes(amount) ) {
+                return rateOfAmountInterval.getRate();
             }
         }
-        return new BigDecimal("0.00");
-    }
-
-    private boolean amountBelongsToInterval(BigDecimal amount, String minAmountAsString, String maxAmountAsString) {
-        if ( minAmountAsString!=null && !minAmountAsString.trim().isEmpty() ) {
-            if ( amount.compareTo(new BigDecimal(minAmountAsString)) < 0 ) {
-                return false;
-            }
-        }
-        if ( maxAmountAsString!=null && !maxAmountAsString.trim().isEmpty() ) {
-            if ( amount.compareTo(new BigDecimal(maxAmountAsString)) > 0 ) {
-                return false;
-            }
-        }
-        return true;
+        return Rate.parse("0.00");
     }
 
     @Override
-    public void init(String[][] ratesByAmountIntervals) {
-        this.ratesByAmountIntervals = new ArrayList<String[]>();
-        if ( ratesByAmountIntervals!=null && ratesByAmountIntervals.length>0 ) {
-            for ( String[] rateByAmountInterval : ratesByAmountIntervals ) {
-                if ( rateByAmountInterval==null || rateByAmountInterval.length!=3 ) {
-                    throw new IllegalArgumentException("Three values expected: minAmount, maxAmount, rate");
-                }
-                String minAmount = rateByAmountInterval[0];
-                String maxAmount = rateByAmountInterval[1];
-                String rate = rateByAmountInterval[2];
-                if ( rate==null || rate.trim().isEmpty() ) {
-                    throw new IllegalArgumentException("Rate must be provided");
-                }
-                String[] amountIntervalWithRate = { minAmount, maxAmount, rate };
-                this.ratesByAmountIntervals.add ( amountIntervalWithRate );
+    public void initEmpty() {
+        this.ratesByAmountIntervals = new ArrayList<RateOfAmountInterval>();
+    }
+
+    @Override
+    public void addRateOfAmountInterval(Amount minAmount, Amount maxAmount, Rate rate) {
+        RateOfAmountInterval newRateOfAmountInterval = new RateOfAmountInterval(minAmount,maxAmount,rate);
+        for ( RateOfAmountInterval rateOfAmountInterval : this.ratesByAmountIntervals ) {
+            if ( newRateOfAmountInterval.overlapsWith(rateOfAmountInterval) ) {
+                throw new RuntimeException("Amount interval overlapping when adding rate to repository");
             }
         }
-     }
+        this.ratesByAmountIntervals.add(newRateOfAmountInterval);
+    }
 
 }
