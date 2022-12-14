@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.github.jmgarridopaz.discounter</groupId>
+		<artifactId>discounter</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>discounter-startup</artifactId>
+
+	<packaging>jar</packaging>
+
+	<name>Discounter Startup</name>
+	<description>Project that runs the whole system</description>
+
+	<properties>
+		<!-- Spring boot -->
+		<spring.boot.version>2.7.6</spring.boot.version>
+	</properties>
+
+	<dependencies>
+		<!-- Depends on the other Discounter projects -->
+		<dependency>
+			<groupId>io.github.jmgarridopaz.discounter</groupId>
+			<artifactId>discounter-outside</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.jmgarridopaz.discounter</groupId>
+			<artifactId>discounter-application</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Spring boot -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

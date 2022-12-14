@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
-	<groupId>io.github.jmgarridopaz</groupId>
+	<groupId>io.github.jmgarridopaz.discounter</groupId>
 	<artifactId>discounter</artifactId>
 	<version>1.0.0</version>
 
-	<name>Discounter Application</name>
-	<description>Discounter App from Hex Arch pattern definition</description>
+	<packaging>pom</packaging>
+
+	<name>Discounter</name>
+	<description>Hexagonal Architecture example from the original article</description>
+
+	<modules>
+		<module>discounter-application</module>
+		<module>discounter-outside</module>
+		<module>discounter-startup</module>
+	</modules>
 
 	<properties>
+		<!-- Char encoding -->
+		<project.encoding>UTF-8</project.encoding>
+		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+		<!-- Java -->
 		<java.version>1.8</java.version>
-		<testng.version>7.5</testng.version>
+		<!-- Compiler Plugin -->
+		<mavenCompilerPlugin.version>3.10.1</mavenCompilerPlugin.version>
 	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Compiler -->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${mavenCompilerPlugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<verbose>false</verbose>
+					<optimize>true</optimize>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.github.jmgarridopaz.discounter</groupId>
+		<artifactId>discounter</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>discounter-outside</artifactId>
+
+	<packaging>jar</packaging>
+
+	<name>Discounter Outside</name>
+	<description>Project with actors and adapters</description>
+
+	<properties>
+		<testng.version>7.7.0</testng.version>
+	</properties>
+
+	<dependencies>
+		<!-- Actors & Adapters depend on the application -->
+		<dependency>
+			<groupId>io.github.jmgarridopaz.discounter</groupId>
+			<artifactId>discounter-application</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- Frameworks -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>
