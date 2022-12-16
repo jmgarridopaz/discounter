@@ -6,7 +6,7 @@ import java.util.ListIterator;
 
 /**
  * Business logic
- * - Implements driver ports
+ * - Implements driving ports
  * - Depends on driven ports
  */
 public class DiscounterApp implements ForDiscounting {
@@ -16,7 +16,6 @@ public class DiscounterApp implements ForDiscounting {
 	private final ForObtainingRates rateRepository;
 
 	public DiscounterApp ( ForObtainingRates rateRepository ) {
-		System.out.println("DiscounterApp constructor...");
 		this.rateRepository = rateRepository;
 	}
 

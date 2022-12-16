@@ -3,7 +3,6 @@ package io.github.jmgarridopaz.discounter.outside.foradiscounting.cli;
 import io.github.jmgarridopaz.discounter.application.Amount;
 import io.github.jmgarridopaz.discounter.application.ports.driving.ForDiscounting;
 import io.github.jmgarridopaz.discounter.outside.Driver;
-
 import java.util.Scanner;
 
 
@@ -12,7 +11,6 @@ public class CommandLineInterface implements Driver {
 	private final ForDiscounting discounterApp;
 
 	public CommandLineInterface (ForDiscounting discounterApp ) {
-		System.out.println("CLI constructor...");
 		this.discounterApp = discounterApp;
 	}
 

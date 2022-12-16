@@ -12,16 +12,15 @@ import java.util.ListIterator;
  * Hardcoded rate table
  *
  * 	Break_Point (€)		Discount_Rate (%)
- * 			0.00			0.00
- * 		  500.00			3.00
- * 		5,000.00			5.00
+ * 			0.00			0
+ * 		  500.00			3
+ * 		5,000.00			5
  */
 public class StubRateAdapter implements ForObtainingRates {
 
     private List<BreakPointWithRate> rateTable;
 
     public StubRateAdapter() {
-        System.out.println("StubRateAdapter constructor...");
         this.rateTable = new ArrayList<BreakPointWithRate>();
         BreakPointWithRate breakPoint__0__rate__0 = new BreakPointWithRate(Amount.parse("0"), Rate.parse("0"));
         BreakPointWithRate breakPoint__500__rate__0_03 = new BreakPointWithRate(Amount.parse("500"), Rate.parse("0.03"));

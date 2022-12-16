@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
  * Hardcoded rate table
  *
  * 	Break_Point (€)		Discount_Rate (%)
- * 			0.00			0.00
- * 		  500.00			3.00
- * 		5,000.00			5.00
+ * 			0.00			0
+ * 		  500.00			3
+ * 		5,000.00			5
  */
-public class GivenStubRateRepository {
+public class StubRateRepositoryTests {
 
 	@Test
 	public void discount_of_0_should_be_0() {

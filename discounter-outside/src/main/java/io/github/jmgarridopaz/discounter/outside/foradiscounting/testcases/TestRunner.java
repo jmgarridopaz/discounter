@@ -11,12 +11,13 @@ public class TestRunner implements Driver {
 	private static final String OUTPUT_DIRECTORY =	System.getProperty("user.home") + File.separator
 													+ ".discounterapp" + File.separator
 													+ "test-output" + File.separator
-													+ Instant.now();
+													+ Instant.now().toEpochMilli();
 
-	private static final Class[] TEST_CLASSES_TO_RUN =	new Class[]{
-															GivenNoRateRepository.class,
-															GivenStubRateRepository.class
-														};
+	private final String forObtainingRatesAdapter;
+
+	public TestRunner ( String forObtainingRatesAdapter ) {
+		this.forObtainingRatesAdapter = forObtainingRatesAdapter;
+	}
 
 	@Override
 	public void run ( String... args ) {
@@ -27,8 +28,27 @@ public class TestRunner implements Driver {
 		System.out.println("==========================================================");
 		TestNG testNG = new TestNG();
 		testNG.setOutputDirectory ( OUTPUT_DIRECTORY );
-		testNG.setTestClasses ( TEST_CLASSES_TO_RUN );
+		testNG.setTestClasses ( testClassesToRun() );
 		testNG.run();
+	}
+
+	private Class[] testClassesToRun() {
+		if ( this.forObtainingRatesAdapter==null ) {
+			return new Class[] { NoRateRepositoryTests.class };
+		}
+		if ( this.forObtainingRatesAdapter.trim().isEmpty() ) {
+			return new Class[] { NoRateRepositoryTests.class };
+		}
+		if ( this.forObtainingRatesAdapter.trim().equals("none") ) {
+			return new Class[] { NoRateRepositoryTests.class };
+		}
+		if ( this.forObtainingRatesAdapter.trim().equals("stub") ) {
+			return new Class[] { StubRateRepositoryTests.class };
+		}
+		if ( this.forObtainingRatesAdapter.trim().equals("file") ) {
+			return new Class[] { FileRateRepositoryTests.class };
+		}
+		return new Class[] {};
 	}
 
 }

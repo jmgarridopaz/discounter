@@ -8,24 +8,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-// * 	Break_Point (€)		Discount_Rate (%)
-//         * 			 0				 0
-//         * 		   100				 5
-//         * 		 1,000				 7
-//         * 		10,000				10
+
 public class FileRateAdapter implements ForObtainingRates {
 
     private final String rateFileName;
 
-    public FileRateAdapter ( String rateFileName ) {
-        System.out.println("FileRateAdapter constructor...");
+    /**
+     * If lines are not provided, it creates no file, assuming 'rateFileName' exists already.
+     *
+     * If lines are provided, creates the 'rateFileName' file, and writes them to it.
+     * If this file already exists, overrides its content.
+     */
+    public FileRateAdapter ( String rateFileName, String ... lines ) {
         if ( rateFileName==null || rateFileName.trim().isEmpty() ) {
             throw new IllegalArgumentException("RateFileName must be provided");
         }
         this.rateFileName = rateFileName;
+        if ( (lines!=null) && (lines.length>0) ) {
+            System.out.println("Writing to file '"+rateFileName+"'...");
+            try {
+                Files.write ( Paths.get(rateFileName), Arrays.asList(lines) );
+            } catch (IOException e) {
+                throw new RuntimeException("An I/O error occurred creating or writing to the file '"+rateFileName+"'",e);
+            }
+        }
     }
 
 
@@ -37,10 +47,11 @@ public class FileRateAdapter implements ForObtainingRates {
 
     private List<BreakPointWithRate> rateTableFromFile() {
         List<String> fileLines = new ArrayList<String>();
+        System.out.println("Reading from file '"+this.rateFileName+"'...");
         try {
             fileLines = Files.readAllLines(Paths.get(this.rateFileName));
         } catch (IOException e) {
-            throw new RuntimeException("An I/O error ocurred reading from the file "+this.rateFileName,e);
+            throw new RuntimeException("An I/O error occurred reading from the file '"+this.rateFileName+"'",e);
         }
         if ( fileLines==null || fileLines.isEmpty() ) {
             throw new RuntimeException("'"+this.rateFileName+"' file must have at least one line");

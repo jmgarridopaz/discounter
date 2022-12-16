@@ -7,11 +7,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
- * The rate is 8%
- * It is a constant defined in the app.
- * It doesn't depend on the amount we want to calculate the discount of.
+ * Hardcoded rate is 8% for any amount
+ *
+ * 	Break_Point (€)		Discount_Rate (%)
+ * 			0.00			8
  */
-public class GivenNoRateRepository {
+public class NoRateRepositoryTests {
 
 	@Test
 	public void discount_of_0_should_be_0() {

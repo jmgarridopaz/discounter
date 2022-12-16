@@ -4,13 +4,13 @@
 
 ### By: Juan Manuel Garrido de Paz
 
-___Wednesday, September 7, 2022___
+___Friday, December 16, 2022___
 
 ![Discounter Application](discounter.png)
 
 ### Description:
 
-This is a version of the sample code application included in the original article defining Hexagonal Architecture pattern.
+This is a version of the application included in the _Sample Code_ section of the Hexagonal Architecture pattern ( https://alistair.cockburn.us/hexagonal-architecture/ ).
 
 The application has a ___driving port with the provided interface "for discounting"___, which calculates the discount to substract from a given amount of money (we will assume euros as currency). Two drivers will be implemented for this port:
 
@@ -25,8 +25,8 @@ The rate to apply depends on the amount, as explained below:
 
 - The whole range of possible amount values is split into non overlapping, consecutive intervals. A concrete rate value is associated to each interval.
 - The rate to be applied to an amount will be the rate value associated to the interval where the amount belongs to.
-- Such intervals are created by defining the so-called _Breaking Points_. A breaking point is a concrete amount value, which is the edge between two consecutive intervals. It is the point where the rate value changes.
-- So, intervals and their rates can be defined in a summarized way, with a table where each row is a _(breaking point, rate value)_ pair, ordered by increasing break point value.
+- Such intervals are created by defining the so-called _Break Points_. A break point is a concrete amount value, which is the edge between two consecutive intervals. It is the point where the rate value changes.
+- So, intervals and their rates can be defined in a summarized way, with a table where each row is a _(break point, rate value)_ pair, ordered by increasing break point value.
 - For example, the following rate table:
 
 | Break Point (€) | Rate (%) |
@@ -72,12 +72,13 @@ _NOTE ABOUT PACKAGING & DEPENDENCIES: I've implemented the whole project as a Ma
 
 ### Development sequence:
 
-| Step # |            Driving            |       Driven        |
-|:------:|:-----------------------------:|:-------------------:|
-|   1    |          Test cases           |        None         |
-|   2    |          Test cases           | Test double (stub)  |
-|   3    | CLI (Command Line Interface)  | Test double (stub)  |
-|   4    | CLI (Command Line Interface)  |        File         |
+| Step # |  Driving   |       Driven       |
+|:------:|:----------:|:------------------:|
+|   1    | Test cases |        None        |
+|   2    | Test cases | Test double (stub) |
+|   3    |    CLI     | Test double (stub) |
+|   4    | Test cases |        File        |
+|   5    |    CLI     |        File        |
 
 ### Programming Environment:
 
@@ -90,45 +91,34 @@ _NOTE ABOUT PACKAGING & DEPENDENCIES: I've implemented the whole project as a Ma
 ### Compiling and Running the application:
 
 1. Download the GitHub repository https://github.com/jmgarridopaz/discounter
+
 2. Go to the directory where you downloaded it
+
 3. Run maven to compile, package and install the artifacts into your local Maven repository:
 
-
-    mvn clean install -U
+    _mvn clean install -U_
 
 4. Run the generated "jar" file, with two arguments:
-- The combination of adapters for running the app: (by default, "test")
+- The combination of adapters _(driving-driven)_ used at both sides for running the application. This argument has 6 possible values:
 
 
-    --config.option = [ test | cli-none | cli-test | cli-file ]
+    config = [ test-none | test-stub | test-file | cli-none | cli-stub | cli-file ]
 
-- When "config.option = cli-file", this argument is the name of the text file with the rate table: (by default, "rates.txt" in the current directory)
-
-
-    --rates.file.name = /path/to/a/text/file
-
-For example, for running the "cli" driving adapter and the test double as the driven adapter:
+- The text file with the rate table to use. This argument is only considered when the "config" argument has been set to "cli-file" (otherwise it has no effect).
 
 
-    java -jar ./discounter-startup/target/discounter-startup-1.0.0.jar --config.option=cli-test
+    rate.file = /path/to/a/text/file
 
-You can also set the value of these args editing the "application.properties" file (it requires recompiling the source code):
+For example, for running the application with the "cli" driving adapter and the "file" driven adapter, reading the rates from a text file named "myrates.txt", located at "/apps/discounter":
 
 
-    #############################################################
-    #              CONFIGURATION OPTIONS                        #
-    #############################################################
-    # FOR_DISCOUNTING       FOR_OBTAINING_RATES     CONFIG.OPTION
-    #       test            none + test             test
-    #       cli             none                    cli-none
-    #       cli             test                    cli-test
-    #       cli             file                    cli-file
-    config.option = test
-    
-    
-    #############################################################
-    #          NAME OF THE FILE WITH THE RATE TABLE             #
-    #############################################################
-    rates.file.name = rates.txt
+    java -jar ./discounter-startup/target/discounter-startup-1.0.0.jar --config=cli-file --rate.file=/apps/discounter/myrates.txt
 
-If an argument is not present at the command line, its value is got from the "application.properties" file.
+- If the "config" argument is omitted, the default value is "test-none". Thus, test cases for the application with no rate repository will be run.
+- If the "rate.file" argument is omitted, the application will look for a file named "rates.txt" at the current directory.
+
+You can also set the values of these arguments ("config" and "rate.file") editing the "application.properties" file. This requires recompiling the source code.
+
+The command line has precedence over the properties file.
+
+If an argument is not present at the command line, then its value is taken from the "application.properties" file.
